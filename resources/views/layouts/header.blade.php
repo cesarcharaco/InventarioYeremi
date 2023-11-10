@@ -1,5 +1,5 @@
 <!-- Navbar-->
-<header class="app-header"><a class="app-header__logo" href="{{ url('home') }}">{{-- <img src="{{ asset('images/licancabur_2.png') }}" style="border-radius: 5px;" alt=""> --}}</a>
+<header class="app-header"><a class="app-header__logo" href="{{ url('home') }}">{{-- <img src="{{ asset('images/moto-01.png') }}" style="border-radius: 5px;" alt=""> --}}</a>
   <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
   <!-- Navbar Right Menu-->
   <ul class="app-nav">

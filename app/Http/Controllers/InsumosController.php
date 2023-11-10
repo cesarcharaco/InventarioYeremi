@@ -28,9 +28,8 @@ class InsumosController extends Controller
      */
     public function create()
     {
-        $gerencias=Gerencias::all();
-
-        return view('inventario.insumos.create',compact('gerencias'));
+       
+        return view('inventario.insumos.create');
     }
 
     /**
@@ -42,56 +41,20 @@ class InsumosController extends Controller
     public function store(InsumosRequest $request)
     {
         //dd($request->all());
-        if ($request->serial!=="S/N") {
-            $buscar=Insumos::where('serial',$request->serial)->get();
-            if (count($buscar)>0) {
-                flash('<i class="fa fa-check-circle-o"></i> Serial ya registrado, intente otra vez!')->warning()->important();
-                return redirect()->to('insumos');
-            } else {
-                $insumo=new Insumos();
-
-                if ($request->entregados=="") {
-                    $entregados=0;
-                }else{
-                    $entregados=$request->entregados;
-                }
-                if ($request->usados=="") {
-                    $usados=0;
-                }else{
-                    $usados=$request->usados;
-                }
-                $insumo->fill($request->all(),['except' => ['entregados','usados']])->save();
-                $i=Insumos::find($insumo->id);
-                $i->entregados=$entregados;
-                $i->usados=$usados;
-                $i->save();
-                flash('<i class="fa fa-check-circle-o"></i> Insumo registrado exitosamente!')->success()->important();
-                return redirect()->to('insumos');
-            }    
+        $buscar=Insumos::where('producto',$request->producto)->count();
+        if ($buscar>0) {
+            flash('<i class="fa fa-check-circle-o"></i> Producto ya registrado, intente otra vez!')->warning()->important();
+                return redirect()->to('insumos');    
         } else {
-                $insumo=new Insumos();
-
-                if ($request->entregados=="") {
-                    $entregados=0;
-                }else{
-                    $entregados=$request->entregados;
-                }
-                if ($request->usados=="") {
-                    $usados=0;
-                }else{
-                    $usados=$request->usados;
-                }
-                $insumo->fill($request->all(),['except' => ['entregados','usados']])->save();
-                $i=Insumos::find($insumo->id);
-                $i->entregados=$entregados;
-                $i->usados=$usados;
-                $i->save();
-                flash('<i class="fa fa-check-circle-o"></i> Insumo registrado exitosamente!')->success()->important();
-                return redirect()->to('insumos');
+            $insumo=new Insumos();
+            $request->serial=100;
+            $insumo->fill($request->all())->save();
+            $insumo->serial=$insumo->id+100;
+            $insumo->save();
+            flash('<i class="fa fa-check-circle-o"></i> Insumo registrado exitosamente!')->success()->important();
+                    return redirect()->to('insumos');
 
         }
-        
-        
     }
 
     /**
@@ -114,9 +77,9 @@ class InsumosController extends Controller
     public function edit($id_insumo)
     {
         $insumo=Insumos::find($id_insumo);
-        $gerencias=Gerencias::all();
+        
 
-        return view('inventario.insumos.edit',compact('insumo','gerencias'));
+        return view('inventario.insumos.edit',compact('insumo'));
     }
 
     /**
@@ -135,7 +98,7 @@ class InsumosController extends Controller
             return redirect()->to('insumos');
         } else {
             $insumo=Insumos::find($id_insumo);
-            if ($request->entregados=="") {
+            /*if ($request->entregados=="") {
                 $entregados=0;
             }else{
                 $entregados=$request->entregados;
@@ -144,18 +107,19 @@ class InsumosController extends Controller
                 $usados=0;
             }else{
                 $usados=$request->usados;
-            }
-            $insumo->fill($request->all(),['except' => ['entregados','usados']])->save();
-            $i=Insumos::find($insumo->id);
+            }*/
+            /*$insumo->fill($request->all(),['except' => ['entregados','usados']])->save();*/
+            $insumo->fill($request->all())->save();
+            /*$i=Insumos::find($insumo->id);
             $i->entregados=$entregados;
             $i->usados=$usados;
-            $i->save();
+            $i->save();*/
             flash('<i class="fa fa-check-circle-o"></i> Insumo actualizado exitosamente!')->success()->important();
             return redirect()->to('insumos');
         }
     }else{
             $insumo=Insumos::find($id_insumo);
-        if ($request->entregados=="") {
+        /*if ($request->entregados=="") {
             $entregados=0;
         }else{
             $entregados=$request->entregados;
@@ -164,12 +128,12 @@ class InsumosController extends Controller
             $usados=0;
         }else{
             $usados=$request->usados;
-        }
-        $insumo->fill($request->all(),['except' => ['entregados','usados']])->save();
-        $i=Insumos::find($insumo->id);
+        }*/
+        $insumo->fill($request->all())->save();
+        /*$i=Insumos::find($insumo->id);
         $i->entregados=$entregados;
         $i->usados=$usados;
-        $i->save();
+        $i->save();*/
         flash('<i class="fa fa-check-circle-o"></i> Insumo actualizado exitosamente!')->success()->important();
         return redirect()->to('insumos');
     }
@@ -194,7 +158,5 @@ class InsumosController extends Controller
             flash('<i class="fa fa-check-circle"></i> El Insumo no pudo ser eliminado!')->warning()->important();
             return redirect()->back();
         }
-
-            
     }
 }

@@ -26,12 +26,10 @@ class InsumosRequest extends FormRequest
         return [
             'producto' => 'required',
             'descripcion' => 'required',
-            'serial' => 'required',
-            'ubicacion' => 'required',
-            'existencia' => 'required|numeric',
-            'in_almacen' => 'required|numeric',
-            'out_almacen' => 'required|numeric',
-            'disponibles' => 'required|numeric'
+            'stock_min' => 'required|numeric',
+            'stock_max' => 'required|numeric',
+            'deposito' => 'required|numeric',
+            'local' => 'required|numeric'
         ];
     }
 
@@ -40,16 +38,14 @@ class InsumosRequest extends FormRequest
         return [
             'producto.required' => 'El nombre del insumo es obligatorio',
             'descripcion.required' => 'La Descripción del insumo es obligatoria',
-            'serial.required' => 'El Serial es obligatorio',
-            'ubicacion.required' => 'La Ubicación del insumo es obligatoria',
-            'existencia.required' => 'La Existencia del insumo es obligatoria',
-            'in_almacen.required' => 'La Cantidad que hay en el almacen es obligatoria',
-            'out_almacen.required' => 'La Cantidad que hay prestada es obligatoria',
-            'disponibles.required' => 'La Cantidad que hay disponible es obligatoria',
-            'existencia.numeric' => 'La existencia del insumo solo debe contener números',
-            'in_almacen.numeric' => 'La Cantidad que hay en el almacen del insumo solo debe contener números',
-            'out_almacen.numeric' => 'La Cantidad que hay prestada del insumo solo debe contener números',
-            'disponibles.numeric' => 'La Cantidad que hay disponible del insumo solo debe contener números'
+            'stock_min.required' => 'El Stock Mínimo del insumo es obligatorio',
+            'stock_max.required' => 'El Stock Máximo del insumo es obligatorio',
+            'deposito.required' => 'La Cantidad que hay en el Depósito es obligatoria',
+            'local.required' => 'La Cantidad que hay en el Local es obligatoria',
+            'stock_min.numeric' => 'El Stock Mínimo del insumo solo debe contener números',
+            'stock_max.numeric' => 'La Stock Máximo del insumo solo debe contener números',
+            'deposito.numeric' => 'La Cantidad del insumo en el Depósito solo debe contener números',
+            'local.numeric' => 'La Cantidad del insumo en el Local solo debe contener números'
         ];   
     }
 }

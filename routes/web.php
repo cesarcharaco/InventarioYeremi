@@ -36,6 +36,11 @@ Route::get('insumos/{id_insumo}/buscar_existencia','PrestamosController@buscar_e
 Route::get('/incidencias/historial','IncidenciasController@historial')->name('incidencias.historial');
 Route::post('incidencias/deshacer','IncidenciasController@deshacer_incidencia')->name('incidencias.deshacer');
 Route::resource('incidencias','IncidenciasController');
+Route::get('/salidas/index2','SalidaController@index2')->name('salidas.index2');
+Route::get('/salidas/{local}/create2','SalidaController@create2')->name('salidas.create2');
+Route::resource('salidas','SalidaController');
+Route::post('local/cambiar_status','LocalController@cambiar_estado')->name('local.cambiar_estado');
+Route::resource('local','LocalController');
 /*Route::get('inventario/insumos', function () {
     return view('inventario/insumos/index');
 });

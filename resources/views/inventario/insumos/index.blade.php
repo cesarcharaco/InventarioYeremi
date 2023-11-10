@@ -4,12 +4,12 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-th-list"></i> Inventario</h1>
-      <p>Sistema de Inventario | Licancabur</p>
+      <h1><i class="fa fa-th-list"></i> SAYER</h1>
+      <p>Sistema de Administrativo | Yermotos Repuestos C.A.</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fa fa-home fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="#">Inventario</a></li>
+      <li class="breadcrumb-item"><a href="#">SAYER</a></li>
       <li class="breadcrumb-item"><a href="{{ route('insumos.index') }}">Insumos</a></li>
       <li class="breadcrumb-item"><a href="#">Listado</a></li>
     </ul>
@@ -55,16 +55,12 @@
                   <th>Producto</th>
                   <th>Descripción</th>
                   <th>Serial</th>
-                  <th>Modelo</th>
-                  <th>Marca</th>
-                  <th>Gerencia</th>
-                  <th>Ubicación</th>
-                  <th>Existencia</th>
-                  <th>En Almacén</th>
-                  <th>Fuera de Almacén</th>
-                  <th>Disponibles</th>
-                  {{-- <th>Entregados</th> --}}
-                  {{-- <th>Usados</th> --}}
+                  <th>Stock_min</th>
+                  <th>Stock_max</th>
+                  <th>Depósito Guaribe</th>
+                  <th>Depósito Valle</th>
+                  <th>Local Guaribe</th>
+                  <th>Local Valle</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -74,21 +70,16 @@
                   <td>{{ $key->producto }}</td>
                   <td>{{ $key->descripcion }}</td>
                   <td>{{ $key->serial }}</td>
-                  <td>{{ $key->modelo }}</td>
-                  <td>{{ $key->marca }}</td>
-                  <td>{{ $key->gerencias->gerencia }}</td>
-                  <td>{{ $key->ubicacion }}</td>
-                  <td>{{ $key->existencia }}</td>
-                  <td>{{ $key->in_almacen }}</td>
-                  <td>{{ $key->out_almacen }}</td>
-                  <td>{{ $key->disponibles }}</td>
-                  {{-- <td>{{ $key->entregados }}</td> --}}
-                  {{-- <td>{{ $key->usados }}</td> --}}
-
+                  <td>{{ $key->stock_min }}</td>
+                  <td>{{ $key->stock_max }}</td>
+                  <td>{{ $key->deposito_g }}</td>
+                  <td>{{ $key->deposito_v }}</td>
+                  <td>{{ $key->local_g }}</td>
+                  <td>{{ $key->local_v }}</td>
                   <td>
                     <a href="{{ route('insumos.edit',$key->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Editar Insumo"><i class="fa fa-edit"></i></a>
                     <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminar_insumo" onclick="eliminar('{{ $key->id }}')"><i class="fa fa-trash"></i></a>
-                    <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detalles" onclick="detalles('{{ $key->producto }}','{{ $key->descripcion }}','{{ $key->serial }}','{{ $key->modelo }}','{{ $key->marca }}','{{ $key->gerencias->gerencia }}','{{ $key->ubicacion }}','{{ $key->existencia }}','{{ $key->in_almacen }}','{{ $key->out_almacen }}','{{ $key->disponibles }}','{{ $key->entregados }}','{{ $key->usados }}','{{ $key->inservible }}')"><i class="fa fa-eye"></i></a>
+                    <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detalles" onclick="detalles('{{ $key->producto }}','{{ $key->descripcion }}','{{ $key->serial }}','{{ $key->stock_min }}','{{ $key->stock_max }}','{{ $key->deposito_g }}','{{ $key->deposito_v }}','{{ $key->local_g }}','{{ $key->local_v }}')"><i class="fa fa-eye"></i></a>
 
                   </td>
                 </tr>
@@ -148,44 +139,26 @@
                   <tr>
                     <th>Nombre:</th>
                     <td><span id="producto"></span></td>
-                    <th>Existencia</th>
-                    <td><span id="existencia"></span></td>
                   </tr>
                   <tr>
                     <th>Descripción</th>
                     <td><span id="descripcion"></span></td>
-                    <th>En Almacen</th>
-                    <td><span id="in_almacen"></span></td>
                   </tr>
                   <tr>
                     <th>Serial</th>
                     <td><span id="serial"></span></td>
-                    <th>Entregados</th>
-                    <td><span id="entregados"></span></td>
                   </tr>
                   <tr>
-                    <th>Modelo</th>
-                    <td><span id="modelo"></span></td>
-                    <th>Fuera de Almacén</th>
-                    <td><span id="out_almacen"></span></td>
+                    <th>Stock Mínimo</th>
+                    <td><span id="stock_min"></span></td>
+                    <th>Stock Máximo</th>
+                    <td><span id="stock_max"></span></td>
                   </tr>
                   <tr>
-                    <th>Marca</th>
-                    <td><span id="marca"></span></td>
-                    <th>Disponibles</th>
-                    <td><span id="disponibles"></span></td>
-                  </tr>
-                  <tr>
-                    <th>Gerencia</th>
-                    <td><span id="gerencia"></span></td>
-                    <th>Usados</th>
-                    <td><span id="usados"></span></td>
-                  </tr>
-                  <tr>
-                    <th>Ubicación</th>
-                    <td><span id="ubicacion"></span></td>
-                    <th>Inservibles</th>
-                    <td><span id="inservible"></span></td>
+                    <th>Depósito Guaribe</th>
+                    <td><span id="deposito_g"></span></td>
+                    <th>Depósito Valle</th>
+                    <td><span id="deposito_v"></span></td>
                   </tr>
                 </table>
               </div>
@@ -206,21 +179,17 @@
     $("#id_insumo").val(id_insumo);
   }
 
-  function detalles(producto,descripcion,serial,modelo,marca,gerencia,ubicacion,existencia,in_almacen,out_almacen,disponibles,entregados,usados,inservible) {
+  function detalles(producto,descripcion,serial,stock_min,stock_max,deposito_g,deposito_v,local_g,local_v) {
     $("#producto").text(producto);
     $("#descripcion").text(descripcion);
     $("#serial").text(serial);
-    $("#modelo").text(modelo);
-    $("#marca").text(marca);
-    $("#gerencia").text(gerencia);
-    $("#ubicacion").text(ubicacion);
-    $("#existencia").text(existencia);
-    $("#in_almacen").text(in_almacen);
-    $("#out_almacen").text(out_almacen);
-    $("#disponibles").text(disponibles);
-    $("#entregados").text(entregados);
-    $("#usados").text(usados);
-    $("#inservible").text(inservible);
+    $("#stock_min").text(stock_min);
+    $("#stock_max").text(stock_max);
+    $("#deposito_g").text(deposito_g);
+    $("#deposito_v").text(deposito_v);
+    $("#local_g").text(local_g);
+    $("#local_v").text(local_v);
+    
   }
 </script>
 @endsection

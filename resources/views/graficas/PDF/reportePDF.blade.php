@@ -24,7 +24,7 @@
 			{{$num=0}}
 			@foreach($insumos as $key)
 				<tr>
-					<td>{{$num=$num+1}}</td>
+					<!-- <td>{{$num=$num+1}}</td>
 					<td>{{$key->producto}}</td>
 					<td>{{$key->marca}}</td>
 					<td>{{$key->in_almacen}}</td>
@@ -32,7 +32,7 @@
 					<td>{{$key->disponibles}}</td>
 					<td>{{$key->entregados}}</td>
 					<td>{{$key->usados}}</td>
-					<td>{{$key->inservible}}</td>
+					<td>{{$key->inservible}}</td> -->
 				</tr>
 			@endforeach()
 		</tbody>

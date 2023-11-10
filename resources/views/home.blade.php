@@ -5,7 +5,7 @@
   <div class="app-title">
     <div>
       <h1><i class="fa fa-dashboard"></i> Tablero</h1>
-      <p>Sistema de Inventario | Licancabur</p>
+      <p>Sistema Administrativo | Yermotos Repuestos C.A.</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -29,15 +29,8 @@
         </div>
       </div>
     </div>
+    
     <div class="col-md-6 col-lg-4">
-      <div class="widget-small warning coloured-icon"><i class="icon fa  fa-handshake-o fa-3x"></i>
-        <div class="info">
-          <h4><a href="{{ route('prestamos.index') }}" style="text-decoration: none">Préstamos</a></h4>
-          <p><b>{{ $p }}</b></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3">
       <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
         <div class="info">
           <h4><a href="{{ route('incidencias.index') }}" style="text-decoration: none">Incidencias</a></h4>

@@ -5,7 +5,7 @@
   <div class="app-title">
     <div>
       <h1><i class="fa fa-users"></i> Solicitantes</h1>
-      <p>Sistema de Inventario | Licancabur</p>
+      <p>Sistema Administrativo | Yermotos Repuestos C.A.</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fa fa-home fa-lg"></i></a></li>

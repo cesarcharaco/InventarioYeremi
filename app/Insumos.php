@@ -8,15 +8,16 @@ class Insumos extends Model
 {
     protected $table='insumos';
 
-    protected $fillable=['producto','descripcion','serial','modelo','marca','id_gerencia','ubicacion','existencia','in_almacen','out_almacen','disponibles','entregados','usados','inservible'];
+    protected $fillable=['producto','descripcion','serial','stock_min','stock_max','deposito','local','id_local'];
 
-    public function gerencias()
+
+    public function salidas()
     {
-    	return $this->belongsTo('App\Gerencias','id_gerencia');
+    	return $this->hasMany('App\Salida','id_insumo','id');
     }
 
-    public function prestamos()
+    public function local()
     {
-    	return $this->hasMany('App\Solicitantes','prestamos','id_insumo','id_solicitante')->withPivot('tipo','observacion','fecha_prestamo','fecha_devuelto','status','cantidad');
+    	return $this->belongsTo('App\Local','id_local','id');
     }
 }

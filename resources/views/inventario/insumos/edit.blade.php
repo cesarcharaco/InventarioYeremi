@@ -4,12 +4,12 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-th-list"></i> Inventario</h1>
-      <p>Sistema de Inventario | Licancabur</p>
+      <h1><i class="fa fa-th-list"></i> SAYER</h1>
+      <p>Sistema Administrativo | Yermotos Repuestos C.A.</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="#">Inventario</a></li>
+      <li class="breadcrumb-item"><a href="#">SAYER</a></li>
       <li class="breadcrumb-item"><a href="{{ route('insumos.index') }}">Insumos</a></li>
       <li class="breadcrumb-item"><a href="#">Actualización de Insumo</a></li>
     </ul>
@@ -65,78 +65,44 @@
                 <div class="row"> 
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Serial <b style="color: red;">*</b></label>
-                    <input class="form-control" type="text" placeholder="Ej: THV123" name="serial" id="serial" title="Ingrese el serial del Insumo" required="required" value="{{ $insumo->serial }}">
-                  </div>
-                </div> 
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Modelo </label>
-                    <input class="form-control" type="text" placeholder="Ej: THV123" name="modelo" id="modelo" title="Ingrese el modelo del Insumo" value="{{ $insumo->modelo }}">
+                    <label class="control-label">Stock Mínimo </label>
+                    <input class="form-control" type="number" placeholder="Ej: 15" name="stock_min" id="stock_min" title="Ingrese el Stock Mínimo del Insumo" value="{{ $insumo->stock_min }}">
                   </div>
                 </div>
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Marca <b style="color: red;">*</b></label>
-                    <input class="form-control" type="text" placeholder="Ej: Almacenamiento" name="modulo" id="modulo" title="Ingrese el módulo del Insumo" required="required" value="{{ $insumo->modulo }}">
+                    <label class="control-label">Stock Máximo <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number" placeholder="Ej: 15" name="stock_max" id="stock_max" title="Ingrese el Stock Máximo del Insumo" required="required" value="{{ $insumo->stock_max }}">
                   </div>
                 </div> 
               </div>
               <div class="row">
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Gerencia <b style="color: red;">*</b></label>
-                    <select name="id_gerencia" id="id_gerencia" class="form-control" title="Seleccione la gerencia a la que será asignado">
-                      @foreach($gerencias as $key)
-                        <option value="{{ $key->id }}" @if($insumo->id_gerencia==$key->id) selected="selected" @endif >{{ $key->gerencia }}</option>
-                      @endforeach
-                    </select>
+                    <label class="control-label">Depósito Guaribe <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 15" name="deposito_g" id="deposito_g" title="Ingrese la cantidad del Insumo en el Depósito Guaribe" required="required" value="{{ $insumo->deposito_g }}">
                   </div>
                 </div> 
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Ubicación <b style="color: red;">*</b></label>
-                    <input class="form-control" type="text"  placeholder="Ej: Pabellón 3" name="ubicacion" id="ubicacion" title="Ingrese la Ubicación del Insumo" required="required" value="{{ $insumo->ubicacion }}">
-                  </div>
-                </div> 
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Existencia <b style="color: red;">*</b> <small>(Stock)</small></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="existencia" id="existencia" title="Ingrese la existencia del Insumo" required="required" value="{{ $insumo->existencia }}">
-                  </div>
-                </div> 
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">En Almacén <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="in_almacen" id="in_almacen" title="Ingrese la cantidad actual en el Almacén, del Insumo" required="required" value="{{ $insumo->in_almacen }}">
+                    <label class="control-label">Depósito Valle <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 300" name="deposito_v" id="deposito_v" title="Ingrese la cantidad del Insumo en el Depósito del Valle" required="required" value="{{ $insumo->deposito_v }}">
                   </div>
                 </div>
-              </div>
+              </div> 
               <div class="row">
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Fuera de Almacén <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="out_almacen" id="out_almacen" title="Ingrese la cantidad actual fuera del Almacén, del Insumo" required="required" value="{{ $insumo->out_almacen }}">
+                    <label class="control-label">Local Guaribe <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_g" id="local_g" title="Ingrese la cantidad del Insumo en el Depósito de Guaribe" required="required" value="{{ $insumo->local_g }}">
                   </div>
                 </div>
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Disponibles <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="disponibles" id="disponibles" title="Ingrese la cantidad disponible del Insumo" required="required" value="{{ $insumo->disponibles }}">
+                    <label class="control-label">Local Valle <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_v" id="local_v" title="Ingrese la cantidad del Insumo en el Local del Valle" required="required" value="{{ $insumo->local_v }}">
                   </div>
                 </div>
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Entregados </label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="entregados" id="entregados" title="Ingrese la cantidad actual fuera del Almacén, del Insumo"value="{{ $insumo->entregados }}">
-                  </div>
-                </div>
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Usados </label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="usados" id="usados" title="Ingrese la cantidad del insumo que está en reparación" value="{{ $insumo->usados }}">
-                  </div>
-                </div> 
               </div>
           </div>
           <div class="tile-footer">

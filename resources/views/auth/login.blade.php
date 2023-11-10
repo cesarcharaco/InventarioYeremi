@@ -6,13 +6,22 @@
 </section>
 <section class="login-content">
   <div class="logo">
-    <img src="{{ asset('images/logo_lica.png') }}" alt="Logo-licancabur" width="250px" class="">
-    <!-- <h1>InvLicancabur</h1> -->
+    <div class="row">
+      <div class="col-md-3">
+        <img src="{{ asset('images/moto-01.png') }}" alt="Logo-Yermotos" width="250px" class="">    
+      </div>
+      <div class="col-md-9">
+        <br><br>
+        <h1><p>Sistema Administrativo | Yermotos Repuestos C.A.</p></h1></div>
+    </div>
+    
+    
   </div>
   <div class="login-box">
     <form class="login-form" method="POST" action="{{ route('login') }}">
       @csrf
       <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Iniciar Sesión</h3>
+      
       <div class="form-group">
         <label class="control-label">Correo electrónico</label>
         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

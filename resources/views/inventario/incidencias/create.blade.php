@@ -4,12 +4,12 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-th-list"></i> Inventario</h1>
-      <p>Sistema de Inventario | Licancabur</p>
+      <h1><i class="fa fa-th-list"></i> SAYER</h1>
+      <p>Sistema Administrativo | Yermotos Repuestos C.A.</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="">Inventario</a></li>
+      <li class="breadcrumb-item"><a href="">SAYER</a></li>
       <li class="breadcrumb-item"><a href="{{ route('incidencias.index') }}">Incidencias</a></li>
       <li class="breadcrumb-item"><a href="">Registro de Incidencia</a></li>
     </ul>
