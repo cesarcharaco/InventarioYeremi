@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function local()
+    {
+        return $this->belongsToMany('App\Local','users_has_local','id_user','id_local')->withPivot('status');
+    }
 }

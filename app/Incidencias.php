@@ -8,7 +8,7 @@ class Incidencias extends Model
 {
     protected $table='incidencias';
 
-    protected $fillable=['id_insumo','cantidad','tipo','observacion','fecha_incidencia'];
+    protected $fillable=['id_insumo','cantidad','tipo','observacion','fecha_incidencia','descontar'];
 
     
     public function insumos()

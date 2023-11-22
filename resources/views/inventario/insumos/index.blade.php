@@ -57,29 +57,28 @@
                   <th>Serial</th>
                   <th>Stock_min</th>
                   <th>Stock_max</th>
-                  <th>Depósito Guaribe</th>
-                  <th>Depósito Valle</th>
-                  <th>Local Guaribe</th>
-                  <th>Local Valle</th>
+                  <th>En Depósito</th>                  
+                  <th>En Local</th>
+                  <th>Local</th>                  
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
+                
                 @foreach($insumos as $key)
-                <tr data-toggle="tooltip" data-placement="top"  title="Entregados: {{ $key->entregados }} - Usados: {{ $key->usados }} - Inservibles: {{ $key->inservible }}">
+                <tr data-toggle="tooltip" data-placement="top" >
                   <td>{{ $key->producto }}</td>
                   <td>{{ $key->descripcion }}</td>
                   <td>{{ $key->serial }}</td>
                   <td>{{ $key->stock_min }}</td>
                   <td>{{ $key->stock_max }}</td>
-                  <td>{{ $key->deposito_g }}</td>
-                  <td>{{ $key->deposito_v }}</td>
-                  <td>{{ $key->local_g }}</td>
-                  <td>{{ $key->local_v }}</td>
+                  <td>{{ $key->deposito }}</td>
+                  <td>{{ $key->local }}</td>
+                  <th>{{ $key->nombre }}</th>
                   <td>
-                    <a href="{{ route('insumos.edit',$key->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Editar Insumo"><i class="fa fa-edit"></i></a>
+                    <a href="{{ route('insumos.editar',['id_insumo' => $key->id,'id_local' => $key->id_local]) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Editar Insumo"><i class="fa fa-edit"></i></a>
                     <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminar_insumo" onclick="eliminar('{{ $key->id }}')"><i class="fa fa-trash"></i></a>
-                    <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detalles" onclick="detalles('{{ $key->producto }}','{{ $key->descripcion }}','{{ $key->serial }}','{{ $key->stock_min }}','{{ $key->stock_max }}','{{ $key->deposito_g }}','{{ $key->deposito_v }}','{{ $key->local_g }}','{{ $key->local_v }}')"><i class="fa fa-eye"></i></a>
+                    <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detalles" onclick="detalles('{{ $key->producto }}','{{ $key->descripcion }}','{{ $key->serial }}','{{ $key->stock_min }}','{{ $key->stock_max }}','{{ $key->deposito }}','{{ $key->local }}','{{ $key->nombre }}')"><i class="fa fa-eye"></i></a>
 
                   </td>
                 </tr>
@@ -155,10 +154,13 @@
                     <td><span id="stock_max"></span></td>
                   </tr>
                   <tr>
-                    <th>Depósito Guaribe</th>
-                    <td><span id="deposito_g"></span></td>
-                    <th>Depósito Valle</th>
-                    <td><span id="deposito_v"></span></td>
+                    <th>En Depósito</th>
+                    <td><span id="deposito"></span></td>
+                    <th>En Local</th>
+                    <td><span id="local"></span></td>
+                  </tr>
+                  <tr>
+                    <td>Local: <span id="nombre"></span></td>
                   </tr>
                 </table>
               </div>
@@ -179,16 +181,15 @@
     $("#id_insumo").val(id_insumo);
   }
 
-  function detalles(producto,descripcion,serial,stock_min,stock_max,deposito_g,deposito_v,local_g,local_v) {
+  function detalles(producto,descripcion,serial,stock_min,stock_max,deposito,local,nombre) {
     $("#producto").text(producto);
     $("#descripcion").text(descripcion);
     $("#serial").text(serial);
     $("#stock_min").text(stock_min);
     $("#stock_max").text(stock_max);
-    $("#deposito_g").text(deposito_g);
-    $("#deposito_v").text(deposito_v);
-    $("#local_g").text(local_g);
-    $("#local_v").text(local_v);
+    $("#deposito").text(deposito);
+    $("#local").text(local);
+    $("#nombre").text(nombre);
     
   }
 </script>

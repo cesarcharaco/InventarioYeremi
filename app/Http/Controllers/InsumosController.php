@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Insumos;
+use App\InsumosC;
+use App\Local;
 use Illuminate\Http\Request;
 use App\Http\Requests\InsumosRequest;
 use App\Http\Requests\InsumosUpdateRequest;
@@ -16,8 +18,13 @@ class InsumosController extends Controller
      */
     public function index()
     {
-        $insumos=Insumos::all();
+        //$insumos=Insumos::all();
+        $insumos=\DB::table('insumos')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('local','insumos_has_cantidades.id_local','=','local.id')
+        ->select('insumos.id','insumos.producto','insumos.descripcion','insumos.serial','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local','local.nombre','insumos_has_cantidades.id_local')->get();
 
+        
         return view('inventario.insumos.index',compact('insumos'));
     }
 
@@ -28,8 +35,8 @@ class InsumosController extends Controller
      */
     public function create()
     {
-       
-        return view('inventario.insumos.create');
+        $locales=Local::all(); 
+        return view('inventario.insumos.create',compact('locales'));
     }
 
     /**
@@ -48,9 +55,24 @@ class InsumosController extends Controller
         } else {
             $insumo=new Insumos();
             $request->serial=100;
-            $insumo->fill($request->all())->save();
+            /*$insumo->fill($request->all())->save();*/
+            $insumo->producto=$request->producto;
+            $insumo->descripcion=$request->descripcion;
+            $insumo->save();
             $insumo->serial=$insumo->id+100;
             $insumo->save();
+            
+            //cargando cantidades en los locales
+            for ($i=0; $i < count($request->id_local); $i++) { 
+                $insumosc=new InsumosC();
+                $insumosc->stock_min=$request->stock_min[$i];
+                $insumosc->stock_max=$request->stock_max[$i];
+                $insumosc->deposito=$request->deposito[$i];
+                $insumosc->local=$request->deposito[$i];
+                $insumosc->id_local=$request->id_local[$i];
+                $insumosc->id_insumo=$insumo->id;
+                $insumosc->save();
+            }
             flash('<i class="fa fa-check-circle-o"></i> Insumo registrado exitosamente!')->success()->important();
                     return redirect()->to('insumos');
 
@@ -74,11 +96,17 @@ class InsumosController extends Controller
      * @param  \App\Insumos  $insumos
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_insumo)
+    public function edit($id_insumo,$id_local)
     {
-        $insumo=Insumos::find($id_insumo);
-        
-
+        /*$insumo=Insumos::find($id_insumo);
+        $locales=Local::find($id_local); 
+        //dd($id_local);*/
+        $insumo=\DB::table('insumos')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('local','insumos_has_cantidades.id_local','=','local.id')
+        ->select('insumos.id','insumos.producto','insumos.descripcion','insumos.serial','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local','local.nombre','insumos_has_cantidades.id_local')
+        ->where('insumos.id',$id_insumo)
+        ->where('insumos_has_cantidades.id_local',$id_local)->first();
         return view('inventario.insumos.edit',compact('insumo'));
     }
 
@@ -91,52 +119,34 @@ class InsumosController extends Controller
      */
     public function update(InsumosUpdateRequest $request, $id_insumo)
     {
-        if ($request->serial!=="S/N") {
-        $buscar=Insumos::where('serial',$request->serial)->where('id','<>',$id_insumo)->get();
-        if (count($buscar)>0) {
+        /*if ($request->serial!=="S/N") {
+        $buscar=Insumos::where('serial',$request->serial)->where('id','<>',$id_insumo)->get();*/
+        /*if (count($buscar)>0) {
             flash('<i class="fa fa-check-circle-o"></i> Serial ya registrado, intente otra vez!')->warning()->important();
             return redirect()->to('insumos');
-        } else {
-            $insumo=Insumos::find($id_insumo);
-            /*if ($request->entregados=="") {
-                $entregados=0;
-            }else{
-                $entregados=$request->entregados;
-            }
-            if ($request->usados=="") {
-                $usados=0;
-            }else{
-                $usados=$request->usados;
-            }*/
-            /*$insumo->fill($request->all(),['except' => ['entregados','usados']])->save();*/
-            $insumo->fill($request->all())->save();
-            /*$i=Insumos::find($insumo->id);
-            $i->entregados=$entregados;
-            $i->usados=$usados;
-            $i->save();*/
+        } else {*/
+            $insumo=Insumos::find($request->id_insumo);
+            $insumo->producto=$request->producto;
+            $insumo->descripcion=$request->descripcion;
+            $insumo->save();
+            $insumosc=InsumosC::where('id_insumo',$request->id_insumo)->where('id_local',$request->id_local)->first();
+            $insumosc->stock_min = $request->stock_min;
+            $insumosc->stock_max = $request->stock_max;
+            $insumosc->deposito = $request->deposito;
+            $insumosc->local = $request->local;
+            $insumosc->save();
+
             flash('<i class="fa fa-check-circle-o"></i> Insumo actualizado exitosamente!')->success()->important();
             return redirect()->to('insumos');
-        }
-    }else{
+        //}
+    /*}else{
             $insumo=Insumos::find($id_insumo);
-        /*if ($request->entregados=="") {
-            $entregados=0;
-        }else{
-            $entregados=$request->entregados;
-        }
-        if ($request->usados=="") {
-            $usados=0;
-        }else{
-            $usados=$request->usados;
-        }*/
+        
         $insumo->fill($request->all())->save();
-        /*$i=Insumos::find($insumo->id);
-        $i->entregados=$entregados;
-        $i->usados=$usados;
-        $i->save();*/
+       
         flash('<i class="fa fa-check-circle-o"></i> Insumo actualizado exitosamente!')->success()->important();
         return redirect()->to('insumos');
-    }
+    }*/
         
     }
 

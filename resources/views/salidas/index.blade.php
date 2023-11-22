@@ -10,7 +10,7 @@
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fa fa-home fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="#">SAYER</a></li>
-      <li class="breadcrumb-item"><a href="{{ route('salidas.index') }}">Salidas</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('salidas.index') }}">Salidas ({{$l->nombre}})</a></li>
       <li class="breadcrumb-item"><a href="#">Listado</a></li>
     </ul>
   </div>
@@ -18,8 +18,8 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-header">
-          <h2 class="mb-3 line-head" id="indicators">Salidas ({{$local}})
-            <a class="btn btn-primary icon-btn pull-right" href="{{ route('salidas.create2',$local) }}"><i class="fa fa-plus"></i>Registrar salida({{$local}})</a>
+          <h2 class="mb-3 line-head" id="indicators">Salidas ({{$l->nombre}})
+            <a class="btn btn-primary icon-btn pull-right" href="{{ route('salidas.createl',$l->id) }}"><i class="fa fa-plus"></i>Registrar salida({{$l->nombre}})</a>
           </h2>
         </div>
         <div class="basic-tb-hd text-center">

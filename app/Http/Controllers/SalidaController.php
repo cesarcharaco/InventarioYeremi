@@ -18,12 +18,21 @@ class SalidaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_local)
     {
 
-        $salidas=\DB::table('salidas')->join('insumos','salidas.id_insumo','=','insumos.id')->select('insumos.*','salidas.*')->where('insumos.deposito','>=',0)->get();
-        $local="Guaribe";
-        return view('salidas.index',compact('salidas','local'));
+        $salidas=\DB::table('salidas')
+        ->join('insumos','salidas.id_insumo','=','insumos.id')
+        ->join('local','salidas.id_local','=','local.id')
+        ->join('insumos_has_cantidades','insumos.id','=','insumos_has_cantidades.id_insumo')
+        ->select('insumos.*','salidas.*','local.nombre','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local')
+        /*->where('insumosc.deposito','>=',0)
+        ->where('insumosc.local','>=',0)*/
+        ->where('local.id',$id_local)->get();
+        
+        $l=Local::find($id_local);
+        
+        return view('salidas.index',compact('salidas','l'));
     }
 
     public function index2()
@@ -40,15 +49,55 @@ class SalidaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create2($local)
+    public function create2(Request $request)
     {
-        $local=Local::where('nombre','Guaribe')->get();
         
-            $insumos=Insumos::where('id_local',$local->id)->get();
-        
+        $local=Local::find($request->id_local);
+        //dd($local);
+        //dd(is_null($local));
+        if(!is_null($local)){
+
+            $insumos=\DB::table('insumos')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('local','insumos_has_cantidades.id_local','=','local.id')
+        ->select('insumos.id','insumos.producto','insumos.descripcion','insumos.serial','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local','local.nombre')
+        ->where('local.id',$local->id)->get();
+        }else{
+            $insumos=[];
+        }
+
+
+        //dd($insumos);
         return view('salidas.create',compact('insumos','local'));
     }
 
+    public function create3($id_local)
+    {
+        
+        $local=Local::find($id_local);
+        //dd($local);
+        if(!is_null($local)){
+
+            $insumos=\DB::table('insumos')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('local','insumos_has_cantidades.id_local','=','local.id')
+        ->select('insumos.id','insumos.producto','insumos.descripcion','insumos.serial','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local','local.nombre')
+        ->where('local.id',$local->id)->get();
+        }else{
+            $insumos=[];
+        }
+
+
+        //dd($insumos);
+        return view('salidas.create',compact('insumos','local'));
+    }
+
+    public function seleccionar_local()
+    {
+        $locales=Local::all();
+
+        return view('salidas.locales', compact('locales'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -57,7 +106,7 @@ class SalidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

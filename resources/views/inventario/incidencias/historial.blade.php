@@ -60,7 +60,33 @@
     </div>
   </div>
 </main>
+<!-- ver detalles  -->
 
+<div class="bs-component">
+  <div class="modal" id="detalles">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"><i class="fa fa-eye"></i> Detalles del Insumo</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          </div>
+            <div class="modal-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="tabla_detalles">
+                  
+                </table>
+              </div>
+            </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+          </div>          
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- deshacer incidencia -->
 <div class="bs-component">
   <div class="modal" id="deshacer_incidencia">
     <div class="modal-dialog" role="document">
@@ -92,6 +118,22 @@
   function deshacer(codigo) {
     console.log(codigo);
     $("#codigo").val(codigo);
+  }
+  function detalles(id_incidencia) {
+    
+    $.get('/incidencias/'+id_incidencia+'/detalles_historial',function(data){
+      
+      if (data.length>0) {
+        $("#tabla_detalles").empty();
+        $("#tabla_detalles").append('<tr><th>Insumo</th><tr><th>Descripción</th><th>Serial</th><th>Tipo</th><th>Cantidad</th><th>Fecha</th><th>Descontado de</th><th>Observación</th></tr>');
+        
+        for (var i =0;i < data.length; i++) {
+          
+          $("#tabla_detalles").append('<tr><td>'+j+'</td><td>'+data[i].producto+'</td><td>'+data[i].descripcion+'</td><td>'+data[i].serial+'('+data[i].tipo+')</td><td>'+data[i].cantidad+'</td><td>'+data[i].tipo+'</td><td>'+data[i].cantidad+'</td><td>'+data[i].fecha_incidencia+'</td><td>'+data[i].descontar+'</td><td>'+data[i].observacion+'</td></tr>');
+        
+        }
+      }
+    });
   }
 </script>
 @endsection

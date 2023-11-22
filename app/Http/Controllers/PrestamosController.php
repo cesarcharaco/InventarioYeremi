@@ -6,6 +6,7 @@ use App\Prestamos;
 use Illuminate\Http\Request;
 use App\Solicitantes;
 use App\Insumos;
+use App\InsumosC;
 use App\Gerencias;
 use App\Areas;
 use App\HistorialPrestamos;
@@ -386,8 +387,11 @@ class PrestamosController extends Controller
 
     public function buscar_existencia($id_insumo)
     {
-        $insumo=Insumos::find($id_insumo);
-        return $insumo->disponibles;
+        $insumo=InsumosC::find($id_insumo);
+        /*$total=$id_insumo->deposito+$insumo->local;
+        return $total;*/
+        return $insumo->local+$insumo->deposito;
+        
     }
 
     protected function generarCodigo() {

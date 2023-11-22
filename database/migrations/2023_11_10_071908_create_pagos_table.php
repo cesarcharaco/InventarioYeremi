@@ -15,8 +15,8 @@ class CreatePagosTable extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsigned('id_cuota');
-            $table->unsigned('id_participante');
+            $table->unsignedbigInteger('id_cuota');
+            $table->unsignedbigInteger('id_participante');
             $table->enum('status',['Pagada','Sin Pagar'])->default('Sin Pagar');
             $table->enum('forma_pago',['Efectivo','Digital','N/A'])->default('N/A');
             $table->date('fecha')->nullable();

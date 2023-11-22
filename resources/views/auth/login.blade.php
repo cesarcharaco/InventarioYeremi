@@ -8,7 +8,7 @@
   <div class="logo">
     <div class="row">
       <div class="col-md-3">
-        <img src="{{ asset('images/moto-01.png') }}" alt="Logo-Yermotos" width="250px" class="">    
+        <img src="{{ asset('images/moto-01.png') }}" alt="Logo-Yermotos" width="75%" height="75%" class="">    
       </div>
       <div class="col-md-9">
         <br><br>

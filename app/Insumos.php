@@ -8,7 +8,7 @@ class Insumos extends Model
 {
     protected $table='insumos';
 
-    protected $fillable=['producto','descripcion','serial','stock_min','stock_max','deposito','local','id_local'];
+    protected $fillable=['producto','descripcion','serial'];
 
 
     public function salidas()
@@ -16,8 +16,8 @@ class Insumos extends Model
     	return $this->hasMany('App\Salida','id_insumo','id');
     }
 
-    public function local()
+    public function insumosc()
     {
-    	return $this->belongsTo('App\Local','id_local','id');
+        return $this->hasOne('App\Insumosc','id_insumo','id');
     }
 }

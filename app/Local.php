@@ -10,8 +10,18 @@ class Local extends Model
 
     protected $fillable=['nombre','estado'];
 
-    public function insumos()
+    public function insumosc()
     {
-    	return $this->hasMany('App\Insumos','id_local','id');
+    	return $this->hasOne('App\Insumos','id_local','id');
+    }
+
+    public function user()
+    {
+    	return $this->belongsToMany('App\User','users_has_local','id_local','id_user')->withPivot('status');
+    }
+
+    public function salida()
+    {
+        return $this->belongsTo('App\Salida','id_local','id');
     }
 }

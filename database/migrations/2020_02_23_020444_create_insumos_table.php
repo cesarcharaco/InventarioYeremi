@@ -18,13 +18,6 @@ class CreateInsumosTable extends Migration
             $table->string('producto');
             $table->text('descripcion');
             $table->string('serial');
-            $table->integer('stock_min')->default(0);
-            $table->integer('stock_max')->default(0);
-            $table->integer('deposito')->default(0);
-            $table->integer('local')->default(0);
-            $table->unsignedBigInteger('id_local');
-            
-            $table->foreign('id_local')->references('id')->on('local')->onDelete('cascade');
             $table->timestamps();
         });
     }

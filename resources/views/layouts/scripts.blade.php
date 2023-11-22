@@ -14,6 +14,7 @@ $('.datepick').datepicker({
       	autoclose: true,
       	todayHighlight: true
       });
+
 $('#sampleTable').DataTable();
 $('.select2').select2();
 </script>

@@ -48,6 +48,7 @@
           <div class="tile-body">
             {!! Form::open(['route' => ['insumos.update',$insumo->id], 'method' => 'PUT', 'name' => 'editar_insumo', 'id' => 'editar_insumo', 'data-parsley-validate']) !!}
                     @csrf
+              <input type="hidden" name="id_insumo" value="{{$insumo->id}}">
               <div class="row">
                 <div class="col-md-3">                  
                   <div class="form-group">
@@ -77,34 +78,33 @@
                 </div> 
               </div>
               <div class="row">
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Depósito Guaribe <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 15" name="deposito_g" id="deposito_g" title="Ingrese la cantidad del Insumo en el Depósito Guaribe" required="required" value="{{ $insumo->deposito_g }}">
-                  </div>
-                </div> 
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Depósito Valle <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="deposito_v" id="deposito_v" title="Ingrese la cantidad del Insumo en el Depósito del Valle" required="required" value="{{ $insumo->deposito_v }}">
-                  </div>
-                </div>
-              </div> 
+                <div class="col-md-12"><hr></div>
+              </div>
               <div class="row">
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Local Guaribe <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_g" id="local_g" title="Ingrese la cantidad del Insumo en el Depósito de Guaribe" required="required" value="{{ $insumo->local_g }}">
-                  </div>
-                </div>
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Local Valle <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_v" id="local_v" title="Ingrese la cantidad del Insumo en el Local del Valle" required="required" value="{{ $insumo->local_v }}">
-                  </div>
+                <div class="col-md-12">
+                  <h4>Actualizar Cantidades en los Locales</h4>
                 </div>
               </div>
-          </div>
+              <div class="row">
+                
+                <div class="col-md-3">                  
+                  <div class="form-group">
+                    <input type="hidden" name="id_local" value="{{$insumo->id_local}}">
+                    <label class="control-label">Depósito {{$insumo-> nombre}} <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 15" name="deposito" id="deposito" title="Ingrese la cantidad del Insumo en el depósito de {{$insumo->nombre}}" required="required" value="{{$insumo->deposito}}" min="0">
+                  </div>
+                </div> 
+                
+                <div class="col-md-3">                  
+                  <div class="form-group">
+                    <label class="control-label">Local {{$insumo->nombre}} <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local" id="local" title="Ingrese la cantidad del Insumo en el Local de {{$insumo->nombre}}" required="required" value="{{$insumo->local}}" min="0">
+                  </div>
+                </div> 
+              </div>
+
+
+              
           <div class="tile-footer">
             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Actualizar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{ route('insumos.index') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
           </div>

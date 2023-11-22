@@ -109,7 +109,7 @@
               
           </div>
           <div class="tile-footer">
-            <button class="btn btn-primary" disabled="disabled" type="submit" name="registrar" id="registrar"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{ url('inventario/incidencias') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
+            <button class="btn btn-primary" disabled="disabled" type="submit" name="registrar" id="registrar"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{ url('incidencias') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
           </div>
             </form>
         </div>

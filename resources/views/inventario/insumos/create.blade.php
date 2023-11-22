@@ -55,12 +55,13 @@
                     <input class="form-control" type="text" placeholder="Ej: Tambores" name="producto" id="producto" title="Ingrese el nombre del Insumo" required="required" value="{{ old('producto') }}">
                   </div>
                 </div> 
-                <div class="col-md-6">                  
+                <div class="col-md-3">                  
                   <div class="form-group">
                     <label class="control-label">Descripción <b style="color: red;">*</b></label>
                     <textarea class="form-control" name="descripcion" id="descripcion" required="required" placeholder="Ej: material, peso, capacidad, etc" title="Ingrese un descripción del insumo" cols="20" rows="5" ></textarea>
                   </div>
                 </div>
+              </div>
                 <div class="row"> 
                 <div class="col-md-3">                  
                   <div class="form-group">
@@ -76,34 +77,33 @@
                 </div> 
               </div>
               <div class="row">
+                <div class="col-md-12"><hr></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Registro de Cantidades en los Locales</h4>
+                </div>
+              </div>
+              @foreach($locales as $key)
+              <div class="row">
                 
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Depósito Guaribe <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 15" name="deposito_g" id="deposito_g" title="Ingrese la cantidad del Insumo en el depósito de Guaribe" required="required" value="{{ old('deposito_g') }}">
+                    <input type="hidden" name="id_local[]" value="{{$key->id}}">
+                    <label class="control-label">Depósito {{$key-> nombre}} <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 15" name="deposito[]" id="deposito" title="Ingrese la cantidad del Insumo en el depósito de {{$key->nombre}}" required="required" value="0" min="0">
                   </div>
                 </div> 
+                
                 <div class="col-md-3">                  
                   <div class="form-group">
-                    <label class="control-label">Depósito Valle <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="deposito_v" id="deposito_v" title="Ingrese la cantidad del Insumo en el depósito del Valle" required="required" value="{{ old('deposito_v') }}">
+                    <label class="control-label">Local {{$key->nombre}} <b style="color: red;">*</b></label>
+                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local[]" id="local" title="Ingrese la cantidad del Insumo en el Local de {{$key->nombre}}" required="required" value="0" min="0">
                   </div>
                 </div> 
               </div>
-              <div class="row">
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Local Guaribe <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_g" id="local_g" title="Ingrese la cantidad del Insumo en el Local de Guaribe" required="required" value="{{ old('local_g') }}">
-                  </div>
-                </div>
-                <div class="col-md-3">                  
-                  <div class="form-group">
-                    <label class="control-label">Local Valle <b style="color: red;">*</b></label>
-                    <input class="form-control" type="number"  placeholder="Ej: 300" name="local_v" id="local_v" title="Ingrese la cantidad del Insumo en el Local del Valle" required="required" value="{{ old('local_v') }}">
-                  </div>
-                </div>
-              </div>
+              <div class="row"><div class="col-md-12"><hr><hr></div></div>
+          @endforeach
           </div>
           <div class="tile-footer">
             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{ route('insumos.index') }}"><i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>

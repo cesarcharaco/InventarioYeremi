@@ -16,10 +16,12 @@ class CreateSalidasTable extends Migration
         Schema::create('salidas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_insumo');
-            $table->enum('local',['Guaribe','El Valle']);
+            $table->unsignedBigInteger('id_local');
             $table->integer('cantidad');
             $table->enum('tipo_salida',['Venta','Fiao','Donación'])->default('Venta');
             $table->text('observacion')->nullable();
+
+            $table->foreign('id_local')->references('id')->on('local')->onDelete('cascade');
             $table->timestamps();
         });
     }

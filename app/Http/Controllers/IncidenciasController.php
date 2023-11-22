@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Incidencias;
 use App\Insumos;
-use App\Gerencias;
+use App\InsumosC;
 use App\HistorialIncidencias;
-use App\Areas;
+
 use Illuminate\Http\Request;
 
 date_default_timezone_set('UTC');
@@ -23,7 +23,7 @@ class IncidenciasController extends Controller
     public function index()
     {
         $incidencias=\DB::table('insumos')->join('incidencias','incidencias.id_insumo','=','insumos.id')->select('insumos.producto','insumos.descripcion','insumos.serial','incidencias.tipo','incidencias.fecha_incidencia','incidencias.cantidad','incidencias.id')->get();
-        //dd($incidencias);
+        
         return view('inventario.incidencias.index',compact('incidencias'));
     }
 
@@ -35,10 +35,15 @@ class IncidenciasController extends Controller
     public function create()
     {
         
-        $gerencias=Gerencias::all();
-        $insumos=Insumos::where('id_gerencia',1)->get();
+        
+        $insumos=\DB::table('insumos')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('local','insumos_has_cantidades.id_local','=','local.id')
+        ->select('insumos.id','insumos.producto','insumos.descripcion','insumos.serial','insumos_has_cantidades.stock_min','insumos_has_cantidades.stock_max','insumos_has_cantidades.deposito','insumos_has_cantidades.local','local.nombre','insumos_has_cantidades.id AS id_insumoc')
+        ->get();
+        
         $hoy=date('Y-m-d');
-        return view('inventario.incidencias.create',compact('gerencias','insumos','hoy'));
+        return view('inventario.incidencias.create',compact('insumos','hoy'));
     }
 
     /**
@@ -51,10 +56,7 @@ class IncidenciasController extends Controller
     {
         //dd($request->all());
         
-        if ($request->id_gerencia==null) {
-            flash('<i class="fa fa-check-circle-o"></i> Debe seleccionar una Gerencia!')->warning()->important();
-            return redirect()->back();
-        } else {
+        
             if ($request->id_insumo==null) {
             flash('<i class="fa fa-check-circle-o"></i> Debe seleccionar un Insumo!')->warning()->important();
             return redirect()->back();
@@ -80,19 +82,19 @@ class IncidenciasController extends Controller
                         //--- fin de la generacion y busqueda de codigo
                         
                                 //actualizando existencias
-                                $insumo=Insumos::find($request->id_insumo);
-                                $insumo->in_almacen=$insumo->in_almacen-$request->cantidad;
-                                $insumo->disponibles=$insumo->disponibles-$request->cantidad;
-
-                            if ($request->tipo=="Usados") {
-
-                                $insumo->usados=$insumo->usados+$request->cantidad;
-                                $insumo->save();
-                            }else{
-                                $insumo->entregados=$insumo->inservible+$request->cantidad;
-                                $insumo->existencia=$insumo->existencia-$request->cantidad;
+                                $insumo=InsumosC::find($request->id_insumo);
+                            if($request->tipo!=="Dañado y Devuelto"){    
+                            switch ($request->descontar) {
+                                case 'Local':
+                                    $insumo->local=$insumo->local-$request->cantidad;
+                                    break;
+                                case 'Depósito':
+                                    $insumo->deposito=$insumo->deposito-$request->cantidad;
+                                    break;
+                            }
                                 $insumo->save();
                             }
+                            
                             //registrando incidencia
                                 $incidencia=new Incidencias();
                                 $incidencia->id_insumo=$request->id_insumo;
@@ -100,6 +102,7 @@ class IncidenciasController extends Controller
                                 $incidencia->tipo=$request->tipo;
                                 $incidencia->observacion=$request->observacion;
                                 $incidencia->fecha_incidencia=$request->fecha_incidencia;
+                                $incidencia->descontar=$request->descontar;
                                 $incidencia->save();
                                 //guardando en historial
                                 $historial=new HistorialIncidencias();
@@ -109,18 +112,14 @@ class IncidenciasController extends Controller
                                 //---------------------
                         
 
-                        if ($request->tipo=="Usados") {
-                        flash('<i class="fa fa-check-circle-o"></i> Insumo(s) registrado EN REPARACIÓN exitosamente!')->warning()->important();
-                        return redirect()->to('incidencias');
-                        } else {
-                            flash('<i class="fa fa-check-circle-o"></i> Insumo(s) registrado INSERVIBLE exitosamente!')->warning()->important();
+                            
+                            flash('<i class="fa fa-check-circle-o"></i> Insumo(s) registrado como: <b>'.$request->tipo.' </b> exitosamente!')->warning()->important();
                             return redirect()->to('incidencias');
-                        }
+                        
                     }
                     
                 }
             }    
-        }       
     }//fin de la funcion store
 
     /**
@@ -300,16 +299,16 @@ class IncidenciasController extends Controller
                 //echo $key->id_incidencia."<br>";
                   //actualizando existencias
                 $insumo=Insumos::find($key->incidencias->id_insumo);
-                $insumo->in_almacen=$insumo->in_almacen+$cantidad;
-                $insumo->disponibles=$insumo->disponibles+$cantidad;
-
-                if ($tipo=="Usados") {
-                    $insumo->usados=$insumo->usados-$cantidad;
-                    $insumo->save();
-                }else{
-                    $insumo->inservible=$insumo->inservible-$cantidad;
-                    $insumo->existencia=$insumo->existencia+$cantidad;
-                    $insumo->save();
+                if($request->tipo!=="Dañado y Devuelto"){    
+                    switch ($key->descontar) {
+                        case 'Local':
+                            $insumo->local=$insumo->local+$cantidad;
+                            break;
+                        case 'Depósito':
+                            $insumo->deposito=$insumo->deposito-$cantidad;
+                            break;
+                    }
+                        $insumo->save();
                 }
             $incidencia=Incidencias::find($key->id_incidencia);
             $incidencia->delete();
@@ -323,13 +322,20 @@ class IncidenciasController extends Controller
 
     public function buscar_existencia($id_insumo)
     {
-        $insumo=Insumos::find($id_insumo);
-        return $insumo->disponibles;
+        //$insumo=Insumos::find($id_insumo);
+        $insumo=InsumosC::find($id_insumo);
+        /*$total=$id_insumo->deposito+$insumo->local;
+        return $total;*/
+        return $insumo->local+$insumo->deposito;
     }
 
     public function detalles_historial($id_incidencia)
     {
         $historial=HistorialIncidencias::where('id_incidencia',$id_incidencia)->first();
-        return $incidencias=\DB::table('insumos')->join('incidencias','incidencias.id_insumo','=','insumos.id')->join('historial_incidencias','historial_incidencias.id_incidencia','incidencias.id')->select('insumos.producto','insumos.descripcion','insumos.serial','incidencias.tipo','incidencias.fecha_incidencia','incidencias.cantidad','incidencias.id')->where('historial_incidencias.codigo',$historial->codigo)->get();
+        return $incidencias=\DB::table('insumos')
+        ->join('incidencias','incidencias.id_insumo','=','insumos.id')
+        ->join('insumos_has_cantidades','insumos_has_cantidades.id_insumo','=','insumos.id')
+        ->join('historial_incidencias','historial_incidencias.id_incidencia','incidencias.id')
+        ->select('insumos.producto','insumos.descripcion','insumos.serial','incidencias.tipo','incidencias.fecha_incidencia','incidencias.cantidad','incidencias.id','incidencias.descontar','incidencias.observacion')->where('historial_incidencias.codigo',$historial->codigo)->get();
     }
 }
